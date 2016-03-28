@@ -1,19 +1,19 @@
 {
   "name": "grunt-bss-boilerplate",
   "version": "1.0.0",
-  "description": "",
-  "main": "Gruntfile.js",
-  "author": "Bruna Santos <brunas.dev@gmail.com>",
-  "license": "ISC",
+  "description": "Boilerplate js configurado com grunt",
   "homepage": "https://github.com/bruunas/grunt-bss-boilerplate#readme",
-  "bugs": {
-    "url": "https://github.com/bruunas/grunt-bss-boilerplate/issues"
-  },
+  "main": "Gruntfile.js",
+  "author": "Bruna Santos (brunas.dev@gmail.com)",
+  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bruunas/grunt-bss-boilerplate.git"
   },
+  "bugs": {
+    "url": "https://github.com/bruunas/grunt-bss-boilerplate/issues"
+  },
   "devDependencies": {
     "grunt": "^0.4.5"
-  },
+  }
 }
