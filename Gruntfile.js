@@ -18,9 +18,19 @@ module.exports = function(grunt) {
 				],
 
 				tasks: [
+					'clean',
 					'uglify',
 					'sass',
 				],
+			}
+		},
+
+		clean: {
+			build: {
+				src: [
+					'assets/**/*',
+					'assets/*'
+				]
 			}
 		},
 
@@ -29,7 +39,7 @@ module.exports = function(grunt) {
 				mangle: false
 			},
 
-			task: {
+			build: {
 				files: {
 					'assets/js/main.js' : ['source/js/script.js'] 
 				}
@@ -41,7 +51,7 @@ module.exports = function(grunt) {
 				style: 'compressed'
 			},
 
-			task: {
+			build: {
 				files: {
 					'assets/css/main.css' : 'source/sass/style.scss'
 				}
