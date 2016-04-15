@@ -14,15 +14,19 @@ module.exports = function(grunt) {
 					'Gruntfile.js',
 					'source/sass/**/*.scss',
 					'source/js/*.js',
-					'*.html'
+					'*.html',
+					'source/images/*.png',
+					'source/images/*.jpg'
 				],
 
 				tasks: [
+					'sprite',
 					'uglify',
 					'sass',
+					'jshint',
 				],
 			}
-		},
+		}, //watch
 
 		clean: {
 			build: {
@@ -31,7 +35,7 @@ module.exports = function(grunt) {
 					'assets/*'
 				]
 			}
-		},
+		}, // clean
 
 		jshint: {
 			all: [
@@ -40,7 +44,7 @@ module.exports = function(grunt) {
 				'source/**/*.js',
 				'assets/js/*.js' 
 			]
-		},
+		}, // jshint
 
 		uglify: {
 			options: {
@@ -64,15 +68,22 @@ module.exports = function(grunt) {
 					'assets/css/main.css' : 'source/sass/style.scss'
 				}
 			}
-		}, // sass 
+		}, // sass
 
+		sprite: {
+			build: {
+				src: 'source/images/*.png',
+				dest: 'assets/images/spritesheet.png',
+				destCss: 'source/sass/sprite.css'
+			}
+		}, //sprite 
 	});
 
 
 
 	// tarefas que serão executadas
 	tasks = {
-		build: ['uglify' , 'sass' , 'watch'],
+		build: ['sass' , 'uglify' , 'sprite' ,'watch'],
 		test: ['jshint'],
 		"default": ['build']
 	};
