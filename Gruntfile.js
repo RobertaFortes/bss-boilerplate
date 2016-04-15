@@ -18,7 +18,6 @@ module.exports = function(grunt) {
 				],
 
 				tasks: [
-					'clean',
 					'uglify',
 					'sass',
 				],
@@ -32,6 +31,15 @@ module.exports = function(grunt) {
 					'assets/*'
 				]
 			}
+		},
+
+		jshint: {
+			all: [
+				'*.js', 
+				'source/js/*.js',
+				'source/**/*.js',
+				'assets/js/*.js' 
+			]
 		},
 
 		uglify: {
@@ -65,6 +73,7 @@ module.exports = function(grunt) {
 	// tarefas que serão executadas
 	tasks = {
 		build: ['uglify' , 'sass' , 'watch'],
+		test: ['jshint'],
 		"default": ['build']
 	};
 
