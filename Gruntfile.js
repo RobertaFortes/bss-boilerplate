@@ -13,6 +13,7 @@ module.exports = function(grunt) {
 				files: [
 					'Gruntfile.js',
 					'source/sass/**/*.scss',
+					'source/sass/**/*.css',
 					'source/js/*.js',
 					'*.html',
 					'source/images/*.png',
@@ -76,14 +77,25 @@ module.exports = function(grunt) {
 				dest: 'assets/images/spritesheet.png',
 				destCss: 'source/sass/sprite.css'
 			}
-		}, //sprite 
+		}, // sprite 
+
+		imagemin: {
+			main: {
+				files: [{
+					expand: true,
+                    cwd: 'source/images',
+                    src: ['**/*.{png,jpg,gif}'],
+                    dest: 'assets/images/'
+				}]
+			}
+		}, // imagemin
 	});
 
 
 
 	// tarefas que serão executadas
 	tasks = {
-		build: ['sass' , 'uglify' , 'sprite' ,'watch'],
+		build: ['sass' , 'uglify' , 'sprite' , 'imagemin' ,'watch'],
 		test: ['jshint'],
 		"default": ['build']
 	};
