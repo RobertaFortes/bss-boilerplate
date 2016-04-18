@@ -1,6 +1,10 @@
+// Startar aplicação com __ grunt __ 
+
 module.exports = function(grunt) {
 
+	require('time-grunt')(grunt); // log o tempo das tasks
 	require('load-grunt-tasks')(grunt); // plugin load tasks on package.json
+
 
     var pkg, config, name, _results, tasks, taskName, taskArray, serverPort;
 
@@ -8,56 +12,14 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		// Tasks que o grunt vai rodar.
 
-		watch: {
-			build: {
-				files: [
-					'Gruntfile.js',
-					'source/sass/**/*.scss',
-					'source/sass/**/*.css',
-					'source/js/*.js',
-					'*.html',
-					'source/images/*.png',
-					'source/images/*.jpg'
-				],
-
-				tasks: [
-					'sprite',
-					'uglify',
-					'sass',
-					'jshint',
-				],
-			}
-		}, //watch
 
 		clean: {
-			build: {
+			app: {
 				src: [
-					'assets/**/*',
-					'assets/*'
+					'build'
 				]
 			}
 		}, // clean
-
-		jshint: {
-			all: [
-				'*.js', 
-				'source/js/*.js',
-				'source/**/*.js',
-				'assets/js/*.js' 
-			]
-		}, // jshint
-
-		uglify: {
-			options: {
-				mangle: false
-			},
-
-			build: {
-				files: {
-					'assets/js/main.js' : ['source/js/script.js'] 
-				}
-			}
-		}, // uglify
 
 		sass: {
 			options: {
@@ -65,39 +27,87 @@ module.exports = function(grunt) {
 			},
 
 			build: {
-				files: {
-					'assets/css/main.css' : 'source/sass/style.scss'
-				}
+				files: [{
+					expand: true,
+                    cwd: 'assets/sass',
+                    src: ['*.scss'],
+                    dest: 'build/css',
+                    ext: '.css'
+				}]
 			}
 		}, // sass
 
-		sprite: {
-			build: {
-				src: 'source/images/*.png',
-				dest: 'assets/images/spritesheet.png',
-				destCss: 'source/sass/sprite.css'
+		uglify: {
+			options: {
+				mangle: false
+			},
+
+			dev: {
+				files: [{
+		        	expand: true,
+		        	cwd: 'assets/js',
+		        	src: ['*.js'],
+		        	dest: 'build/js'
+		      	}]
 			}
-		}, // sprite 
+		}, // uglify
+
+		jshint: {
+			all: [
+				'*.js', 
+				'assets/js/*.js',
+				'assets/**/*.js',
+				'assets/js/*.js' 
+			]
+		}, // jshint
 
 		imagemin: {
 			main: {
 				files: [{
 					expand: true,
-                    cwd: 'source/images',
+                    cwd: 'assets/images',
                     src: ['**/*.{png,jpg,gif}'],
-                    dest: 'assets/images/'
+                    dest: 'build/images/'
 				}]
 			}
 		}, // imagemin
+
+		sprite: {
+			dev: {
+				src: 'assets/images/*.png',
+				dest: 'build/images/spritesheet.png',
+				destCss: 'build/css/sprite.css',
+			}
+		}, // sprite
+
+		concat: {
+			dist: {
+				src: ['build/js/script.js'],
+				dest: 'build/js/main.min.js'
+			}
+		}, // concat
+		
+		watch: {
+			app: {
+				files: [
+					'assets/**/*'
+				],
+
+				tasks: [
+					'test',
+					'build',
+				],
+			}
+		}, //watch
 	});
 
 
 
 	// tarefas que serão executadas
 	tasks = {
-		build: ['sass' , 'uglify' , 'sprite' , 'imagemin' ,'watch'],
+		build: ['sprite','imagemin','sass','uglify', 'concat','autoprefixer'],
 		test: ['jshint'],
-		"default": ['build']
+		"default": ['clean','imagemin','sprite','sass','jshint','uglify', 'concat','autoprefixer']
 	};
 
 	// Registrando as tarefas customizadas
