@@ -34,7 +34,7 @@ module.exports = function(grunt) {
                     dest: 'build/css',
                     ext: '.css'
 				}]
-			}
+			},
 		}, // sass
 
 		uglify: {
@@ -77,13 +77,15 @@ module.exports = function(grunt) {
 				src: 'assets/images/*.png',
 				dest: 'build/images/spritesheet.png',
 				destCss: 'build/css/sprite.css',
-			}
+			},
 		}, // sprite
 
 		concat: {
 			dist: {
-				src: ['build/js/script.js'],
-				dest: 'build/js/main.min.js'
+				files: {
+					'build/js/main.min.js': ['build/js/script.js'],
+					'build/css/main.min.css': ['build/css/main.css', 'build/css/sprite.css'],
+				}
 			}
 		}, // concat
 		
@@ -105,9 +107,9 @@ module.exports = function(grunt) {
 
 	// tarefas que serão executadas
 	tasks = {
-		build: ['sprite','imagemin','sass','uglify', 'concat','autoprefixer'],
-		test: ['jshint'],
-		"default": ['clean','imagemin','sprite','sass','jshint','uglify', 'concat','autoprefixer']
+		build: ['sprite','imagemin','sass', 'jshint', 'uglify', 'concat'],
+		test: ['clean', 'sprite', 'sass'],
+		"default": ['clean','imagemin','sprite','sass','jshint','uglify', 'concat']
 	};
 
 	// Registrando as tarefas customizadas

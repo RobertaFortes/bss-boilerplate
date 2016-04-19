@@ -1,7 +1,7 @@
 {
   "name": "grunt-bss-boilerplate",
   "version": "1.0.0",
-  "description": "Boilerplate js configurado com grunt",
+  "description": "Boilerplate Grunt",
   "homepage": "https://github.com/bruunas/grunt-bss-boilerplate#readme",
   "main": "Gruntfile.js",
   "author": "Bruna Santos (brunas.dev@gmail.com)",
@@ -16,6 +16,7 @@
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-concat": "^1.0.0",
     "grunt-contrib-imagemin": "^1.0.0",
     "grunt-contrib-jshint": "^1.0.0",
