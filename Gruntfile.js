@@ -13,53 +13,59 @@ module.exports = function(grunt) {
 		// Tasks que o grunt vai rodar.
 
 
-		clean: {
-			app: {
-				src: [
-					'build'
-				]
-			}
-		}, // clean
+		clean: [
+			'dist/*',
+			'.sass-cache',
+            '.tmp'
+		], // clean
+
+	
+	//_____________ CSS _____________//	
+
 
 		sass: {
-			options: {
-				style: 'compressed'
-			},
+			dist: {
+				options: {
+					sourcemap: 'none',
+					style: 'compressed'
+				},
 
-			build: {
-				files: [{
-					expand: true,
-                    cwd: 'assets/sass',
-                    src: ['*.scss'],
-                    dest: 'build/css',
-                    ext: '.css'
-				}]
-			},
+				files: {
+	                'build/css/main.min.css': 'assets/sass/main.scss'
+				}
+			}
 		}, // sass
+
+
+		//_____________ JS _____________//
+
+		jshint: {
+			all: ['Gruntfile.js', 'assets/scripts/*.js']
+		}, // jshint
 
 		uglify: {
 			options: {
 				mangle: false
 			},
 
-			dev: {
+			app: {
 				files: [{
-		        	expand: true,
-		        	cwd: 'assets/js',
-		        	src: ['*.js'],
-		        	dest: 'build/js'
+		        	'build/js': '*.js'
 		      	}]
 			}
 		}, // uglify
 
-		jshint: {
-			all: [
-				'*.js', 
-				'assets/js/*.js',
-				'assets/**/*.js',
-				'assets/js/*.js' 
-			]
-		}, // jshint
+
+		concat: {
+			dist: {
+				files: {
+					'build/js/main.min.js': ['assets/scripts/script.js'],
+				}
+			}
+		}, // concat
+
+
+		//_____________ IMGS _____________ //
 
 		imagemin: {
 			main: {
@@ -80,14 +86,6 @@ module.exports = function(grunt) {
 			},
 		}, // sprite
 
-		concat: {
-			dist: {
-				files: {
-					'build/js/main.min.js': ['build/js/script.js'],
-					'build/css/main.min.css': ['build/css/main.css', 'build/css/sprite.css'],
-				}
-			}
-		}, // concat
 		
 		watch: {
 			app: {
@@ -107,8 +105,6 @@ module.exports = function(grunt) {
 
 	// tarefas que serão executadas
 	tasks = {
-		build: ['sprite','imagemin','sass', 'jshint', 'uglify', 'concat'],
-		test: ['clean', 'sprite', 'sass'],
 		"default": ['clean','imagemin','sprite','sass','jshint','uglify', 'concat']
 	};
 
