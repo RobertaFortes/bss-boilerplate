@@ -14,11 +14,50 @@ module.exports = function(grunt) {
 
 
 		clean: [
-			'dist/*',
+			'build',
+			'dist',
 			'.sass-cache',
             '.tmp'
 		], // clean
 
+		//_____________ IMGS _____________ //
+
+		imagemin: {
+			png: {
+				options: {
+					optimizationLevel: 7
+				},
+
+				files: [{
+					expand: true,                  
+					cwd: 'assets/images/',                   
+					src: ['**/*.png'],   
+					dest: 'dist/images/'
+				}]
+			},
+
+			jpg: {
+				options: {
+					progressive: true,
+					optimizationLevel: 1
+				},
+
+				files: [{
+					expand: true,                  
+        			cwd: 'assets/images/',                   
+        			src: ['**/*.jpg'],   
+        			dest: 'build/images/'
+				}]
+			}
+		}, // imagemin
+
+		sprite: {
+			dev: {
+				src: 'dist/images/*.png',
+				dest: 'build/images/spritesheet.png',
+				destCss: 'assets/sass/extends/_sprite.scss',
+			},
+		}, // sprite
 	
 	//_____________ CSS _____________//	
 
@@ -33,6 +72,18 @@ module.exports = function(grunt) {
 				files: {
 	                'build/css/main.min.css': 'assets/sass/main.scss'
 				}
+			},
+
+			dev: {
+				options: {
+					style: 'expanded',
+					debugInfo: true,
+                    lineNumbers: true
+				},
+
+				files: {
+					'dist/css/main.css': 'assets/sass/main.scss'
+				}
 			}
 		}, // sass
 
@@ -43,6 +94,16 @@ module.exports = function(grunt) {
 			all: ['Gruntfile.js', 'assets/scripts/*.js']
 		}, // jshint
 
+
+
+		concat: {
+			dist: {
+				files: {
+					'dist/scripts/main.min.js': ['assets/scripts/*.js', 'assets/scripts/vendor/**.js'],
+				}
+			}
+		}, // concat
+
 		uglify: {
 			options: {
 				mangle: false
@@ -50,41 +111,11 @@ module.exports = function(grunt) {
 
 			app: {
 				files: [{
-		        	'build/js': '*.js'
+		        	'build/js/main.min.js': 'dist/scripts/*.js'
 		      	}]
 			}
 		}, // uglify
 
-
-		concat: {
-			dist: {
-				files: {
-					'build/js/main.min.js': ['assets/scripts/script.js'],
-				}
-			}
-		}, // concat
-
-
-		//_____________ IMGS _____________ //
-
-		imagemin: {
-			main: {
-				files: [{
-					expand: true,
-                    cwd: 'assets/images',
-                    src: ['**/*.{png,jpg,gif}'],
-                    dest: 'build/images/'
-				}]
-			}
-		}, // imagemin
-
-		sprite: {
-			dev: {
-				src: 'assets/images/*.png',
-				dest: 'build/images/spritesheet.png',
-				destCss: 'build/css/sprite.css',
-			},
-		}, // sprite
 
 		
 		watch: {
@@ -105,7 +136,7 @@ module.exports = function(grunt) {
 
 	// tarefas que serão executadas
 	tasks = {
-		"default": ['clean','imagemin','sprite','sass','jshint','uglify', 'concat']
+		"default": ['clean','imagemin','sprite','sass','jshint','concat','uglify']
 	};
 
 	// Registrando as tarefas customizadas
