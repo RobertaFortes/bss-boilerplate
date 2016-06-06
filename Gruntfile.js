@@ -48,16 +48,28 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,                  
         			cwd: 'assets/images/',                   
-        			src: ['**/*.jpg'],   
+        			src: ['**/*.{jpg,jpeg}'],   
         			dest: 'build/images/'
+				}]
+			},
+
+			svg: {
+				options:{ 
+					optimizationLevel: 2
+				},
+
+				files: [{
+					expand: true,
+					cwd: 'assets/images',
+					src: ['**/*.svg'],
+					dest: 'dist/images/'
 				}]
 			}
 		}, // imagemin
 
 		sprite: {
 			app: {
-				src: 'dist/images/*.png',
-				imgPath: '../images/spritesheet.png',
+				src: 'dist/images/sprite/*.png',
 				dest: 'build/images/spritesheet.png',
 				destCss: 'assets/sass/extends/_sprite.scss',
 				algorithm: 'top-down',
@@ -65,6 +77,17 @@ module.exports = function(grunt) {
 				cssFormat: 'scss'
 			},
 		}, // sprite
+
+		webfont: {
+			icons: {
+				src: 'dist/images/svg/*.svg',
+				dest: 'build/fonts',
+				options: {
+					fontFilename: 'icon-{hash}',
+					destCss: 'assets/sass/extends/_icon-font.scss'
+				}
+			}
+		},
 	
 	//_____________ CSS _____________//	
 
@@ -141,6 +164,11 @@ module.exports = function(grunt) {
 			sass: {
 				files: ['assets/sass/**/*.scss'],
 				tasks: ['sass']
+			},
+
+			fontes: {
+				files: ['assets/fonts/*'],
+				tasks: ['copy']
 			}
 		}, //watch
 
@@ -152,14 +180,17 @@ module.exports = function(grunt) {
 				expand: true,
 				flatten: true
 			}
-		}
+		}, //copy
+
+		
+
 	});
 
 
 
 	// tarefas que serão executadas
 	tasks = {
-		"default": ['clean:release','imagemin','sprite','sass','jshint','concat','uglify','copy','watch'],
+		"default": ['clean:release','imagemin','sprite','webfont','sass','jshint','concat','uglify','copy','watch'],
 		build: ['clean:build']
 	};
 
