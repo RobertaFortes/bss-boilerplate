@@ -122,8 +122,6 @@ module.exports = function(grunt) {
 		      	}]
 			}
 		}, // uglify
-
-		//_____________ WATCH _____________//
 		
 		watch: {
 			options: {
@@ -145,13 +143,23 @@ module.exports = function(grunt) {
 				tasks: ['sass']
 			}
 		}, //watch
+
+		copy: {
+			files: {
+				cwd:'assets/',
+				src: 'fonts/*',
+				dest: 'build/fonts/',
+				expand: true,
+				flatten: true
+			}
+		}
 	});
 
 
 
 	// tarefas que serão executadas
 	tasks = {
-		"default": ['clean:release','imagemin','sprite','sass','jshint','concat','uglify', 'watch'],
+		"default": ['clean:release','imagemin','sprite','sass','jshint','concat','uglify','copy','watch'],
 		build: ['clean:build']
 	};
 
