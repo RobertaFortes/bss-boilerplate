@@ -1,2 +1,4 @@
-@import 'extends/sprite';
+@import 'extends/reset';
 @import 'extends/style';
+@import 'extends/sprite';
+@include sprites($spritesheet-sprites);

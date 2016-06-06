@@ -13,12 +13,15 @@ module.exports = function(grunt) {
 		// Tasks que o grunt vai rodar.
 
 
-		clean: [
-			'build',
-			'dist',
-			'.sass-cache',
-            '.tmp'
-		], // clean
+		clean:{
+			build: {
+				src:['dist','.sass-cache','.tmp']
+			},
+
+			release: {
+				src:['build','dist','.sass-cache','.tmp']
+			}
+		},
 
 		//_____________ IMGS _____________ //
 
@@ -52,10 +55,14 @@ module.exports = function(grunt) {
 		}, // imagemin
 
 		sprite: {
-			dev: {
+			app: {
 				src: 'dist/images/*.png',
+				imgPath: '../images/spritesheet.png',
 				dest: 'build/images/spritesheet.png',
 				destCss: 'assets/sass/extends/_sprite.scss',
+				algorithm: 'top-down',
+				padding: 3,
+				cssFormat: 'scss'
 			},
 		}, // sprite
 	
@@ -99,7 +106,7 @@ module.exports = function(grunt) {
 		concat: {
 			dist: {
 				files: {
-					'dist/scripts/main.min.js': ['assets/scripts/*.js', 'assets/scripts/vendor/**.js'],
+					'dist/scripts/main.min.js': ['assets/scripts/*.js', 'assets/scripts/vendor/*.js'],
 				}
 			}
 		}, // concat
@@ -116,18 +123,26 @@ module.exports = function(grunt) {
 			}
 		}, // uglify
 
-
+		//_____________ WATCH _____________//
 		
 		watch: {
-			app: {
-				files: [
-					'assets/**/*'
-				],
+			options: {
+				spawn: false
+			},
 
-				tasks: [
-					'test',
-					'build',
-				],
+			sprite: {
+				files: ['assets/images/*.png'],
+				tasks: ['imagemin', 'sprite', 'sass']
+			},
+
+			scripts: {
+				files: ['assets/scripts/**/*.js'],
+				tasks: ['jshint', 'concat', 'uglify']
+			},
+
+			sass: {
+				files: ['assets/sass/**/*.scss'],
+				tasks: ['sass']
 			}
 		}, //watch
 	});
@@ -136,7 +151,8 @@ module.exports = function(grunt) {
 
 	// tarefas que serão executadas
 	tasks = {
-		"default": ['clean','imagemin','sprite','sass','jshint','concat','uglify']
+		"default": ['clean:release','imagemin','sprite','sass','jshint','concat','uglify', 'watch'],
+		build: ['clean:build']
 	};
 
 	// Registrando as tarefas customizadas
