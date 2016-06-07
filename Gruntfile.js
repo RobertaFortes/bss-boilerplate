@@ -78,14 +78,9 @@ module.exports = function(grunt) {
 			},
 		}, // sprite
 
-		webfont: {
-			icons: {
-				src: 'dist/images/svg/*.svg',
-				dest: 'build/fonts',
-				options: {
-					fontFilename: 'icon-{hash}',
-					destCss: 'assets/sass/extends/_icon-font.scss'
-				}
+		svg_sprite: {
+			app: {
+				src: ['dist/images/svg/*.svg'],
 			}
 		},
 	
@@ -190,7 +185,7 @@ module.exports = function(grunt) {
 
 	// tarefas que serão executadas
 	tasks = {
-		"default": ['clean:release','imagemin','sprite','webfont','sass','jshint','concat','uglify','copy','watch'],
+		"default": ['clean:release','imagemin','sprite','grunticon','sass','jshint','concat','uglify','copy','watch'],
 		build: ['clean:build']
 	};
 
