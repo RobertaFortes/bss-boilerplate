@@ -80,8 +80,34 @@ module.exports = function(grunt) {
 
 		svg_sprite: {
 			app: {
-				src: ['dist/images/svg/*.svg'],
-			}
+				cwd: 'dist',
+				expand: true,
+				src: ['**/*.svg'],
+				dest: 'dist/svg_sprite'
+			},
+
+			options: {
+				shape: {
+					dimension: {	// Set maximun dimensions
+						maxWidth: 32,
+						maxHeight: 32
+					},
+
+					spacing: {	// add padding
+						padding: 5
+					},
+				},
+
+				mode: {
+					css: { 	// Activate the css mode
+						render: {
+							scss: true,	// Activate scss output
+						}
+					},
+
+					symbol: true,	// Activate the symbol mode
+				}
+			},
 		},
 	
 	//_____________ CSS _____________//	
@@ -146,9 +172,9 @@ module.exports = function(grunt) {
 				spawn: false
 			},
 
-			sprite: {
-				files: ['assets/images/*.png'],
-				tasks: ['imagemin', 'sprite', 'sass']
+			imgs: {
+				files: ['assets/images/*.**'],
+				tasks: ['imagemin', 'sprite', 'svg_sprite', 'sass']
 			},
 
 			scripts: {
@@ -186,7 +212,8 @@ module.exports = function(grunt) {
 	// tarefas que serão executadas
 	tasks = {
 		"default": ['clean:release','imagemin','sprite','grunticon','sass','jshint','concat','uglify','copy','watch'],
-		build: ['clean:build']
+		build: ['clean:build'],
+		teste: ['clean', 'imagemin', 'svg_sprite']
 	};
 
 	// Registrando as tarefas customizadas
